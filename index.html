@@ -1,90 +1,122 @@
-<script>
-    // Your provided API Key
-    const API_KEY = "AIzaSyD8AEL1VHkSy8zNnyVeOslO2QPdoG84Yys"; 
-    let bookData = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KASSY CHUKWU AURA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+        .aura-text { background: linear-gradient(90deg, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        .pulse-card { min-width: 300px; background: white; padding: 20px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); flex-shrink: 0; }
+        #showroom { display: none; position: fixed; inset: 0; background: radial-gradient(circle at center, #ffffff, #d1d5db); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+        .book-3d { width: 220px; height: 320px; background: #2563eb; border-left: 12px solid #fff; border-radius: 4px 12px 12px 4px; box-shadow: 20px 20px 50px rgba(0,0,0,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 900; text-align: center; }
+        .silver-table { width: 450px; height: 25px; background: linear-gradient(90deg, #94a3b8, #f8fafc, #94a3b8); border-radius: 50%; margin-top: -15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
 
-    async function runAura() {
-        const prompt = document.getElementById('userInput').value;
-        if(!prompt) return alert("What should I write about, friend?");
+    <nav class="max-w-6xl mx-auto p-6 flex justify-between items-center">
+        <div class="text-2xl font-black uppercase">Kassy Chukwu <span class="aura-text">Aura</span></div>
+        <div class="flex items-center gap-4 bg-white p-2 px-4 rounded-full border shadow-sm">
+            <img id="navAvatar" src="https://via.placeholder.com/40" class="w-8 h-8 rounded-full object-cover">
+            <button onclick="document.getElementById('faceIn').click()" class="text-xs font-bold text-blue-600">UPLOAD FACE</button>
+            <input type="file" id="faceIn" hidden onchange="loadAvatar(this)">
+        </div>
+    </nav>
 
-        const btn = document.getElementById('genBtn');
-        const originalText = btn.innerText;
-        btn.innerText = "AURA IS CONNECTING...";
-        btn.disabled = true;
-
-        try {
-            // Using the Google Generative AI Fetch URL
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    <main class="max-w-4xl mx-auto p-6">
+        <div class="bg-white rounded-[40px] p-10 shadow-2xl border border-slate-50 mb-12">
+            <h1 class="text-3xl font-black text-center mb-8 text-slate-800">Create Undetectable Content</h1>
+            <div class="border-2 border-slate-100 rounded-3xl p-6 mb-8 focus-within:border-blue-500 transition-all">
+                <textarea id="userInput" placeholder="Paste link, upload file, or type prompt..." class="w-full h-32 text-xl outline-none resize-none"></textarea>
+                <div class="flex gap-6 mt-4 pt-4 border-t border-slate-100 text-slate-400 font-bold text-sm">
+                    <span class="cursor-pointer">📎 Upload</span>
+                    <span class="cursor-pointer">🎥 Video</span>
+                    <span class="cursor-pointer">🔗 Link</span>
+                </div>
+            </div>
             
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `Write a beautiful, long book about ${prompt}. 
-                            INSTRUCTIONS: 
-                            1. Act as a close friend. 
-                            2. Use multiple chapters. 
-                            3. Ensure the tone is personal and undetectable as AI.
-                            4. End with 'This work is digitally protected by Kassy Chukwu Aura'.`
-                        }]
-                    }]
-                })
-            });
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <button class="bg-blue-600 text-white font-bold p-4 rounded-xl">Video to Book</button>
+                <button class="bg-blue-600 text-white font-bold p-4 rounded-xl">PDF Rewrite</button>
+                <button class="bg-blue-600 text-white font-bold p-4 rounded-xl">Summarize</button>
+                <button class="bg-blue-600 text-white font-bold p-4 rounded-xl">Gallery</button>
+            </div>
+            
+            <button onclick="generate()" id="genBtn" class="w-full bg-black text-white font-black py-6 rounded-2xl text-2xl">GENERATE MASTERPIECE</button>
+        </div>
 
-            const data = await response.json();
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Reality Pulse: Feb 19, 2026</h3>
+        <div class="flex gap-6 overflow-x-auto pb-10">
+            <div class="pulse-card">
+                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold">VIRAL TIKTOK</span>
+                <p class="font-bold mt-2">Skrilla's "6-7" arm motion dance hits 1.2B views globally today.</p>
+            </div>
+            <div class="pulse-card">
+                <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-[10px] font-bold">BUSINESS</span>
+                <p class="font-bold mt-2">MTN Nigeria ₦8.4T IHS Tower acquisition finalized this morning.</p>
+            </div>
+            <div class="pulse-card">
+                <span class="bg-purple-100 text-purple-600">MUSIC TREND</span>
+                <p class="font-bold mt-2">Johnny Drille's "Last Forever" hits #1 on Apple Music Naija.</p>
+            </div>
+        </div>
+    </main>
 
-            // If Google returns an error, show exactly what it is
-            if (data.error) {
-                if(data.error.status === "INVALID_ARGUMENT") {
-                    throw new Error("API Key is incorrect or invalid.");
-                } else if(data.error.message.includes("API key not found")) {
-                    throw new Error("API Key not found. Please check AI Studio.");
-                } else {
-                    throw new Error(data.error.message);
-                }
+    <footer class="text-center py-10 text-slate-300 font-bold uppercase text-[10px] tracking-widest">
+        App is designed by Precious Alakpa
+    </footer>
+
+    <div id="showroom">
+        <button onclick="this.style.display='none'" class="absolute top-10 right-10 text-2xl">✕ CLOSE</button>
+        <div class="flex gap-8 mb-4">
+            <div id="bookFront" class="book-3d uppercase">TITLE</div>
+            <div class="book-3d uppercase" style="background: #1e3a8a; transform: rotateY(20deg);">BACK COVER</div>
+        </div>
+        <div class="silver-table"></div>
+        <img id="showAvatar" src="https://via.placeholder.com/80" class="w-24 h-24 rounded-full border-4 border-white my-8 shadow-xl">
+        <div class="flex gap-4">
+            <button class="bg-green-500 text-white px-10 py-4 rounded-full font-black">WHATSAPP SHARE</button>
+            <button class="bg-black text-white px-10 py-4 rounded-full font-black">DOWNLOAD BOOK</button>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyD8AEL1VHkSy8zNnyVeOslO2QPdoG84Yys";
+
+        function loadAvatar(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('navAvatar').src = e.target.result;
+                    document.getElementById('showAvatar').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            // Successfully received the book content
-            bookData = data.candidates[0].content.parts[0].text;
-
-            // THE REVEAL: Fill the 4K Showroom
-            document.getElementById('finalTitle').innerText = "THE POWER OF " + prompt.toUpperCase();
-            document.getElementById('frontCover').innerText = "THE POWER OF " + prompt.toUpperCase();
-            document.getElementById('bookContent').innerText = bookData;
+        async function generate() {
+            const topic = document.getElementById('userInput').value;
+            if(!topic) return alert("Please enter a topic.");
+            const btn = document.getElementById('genBtn');
+            btn.innerText = "AURA IS WRITING...";
             
-            // Show the 4K Showroom Overlay
-            document.getElementById('showroomOverlay').style.display = 'flex';
-
-        } catch (e) {
-            console.error("Aura Debug:", e);
-            alert("Aura Connection Error: " + e.message + "\n\nTip: Make sure your internet is on and the API key is active in Google AI Studio.");
-        } finally {
-            btn.innerText = originalText;
-            btn.disabled = false;
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Write a book about ${topic} as a friend.` }] }] })
+                });
+                const data = await res.json();
+                document.getElementById('bookFront').innerText = topic;
+                document.getElementById('showroom').style.display = 'flex';
+            } catch (e) {
+                alert("Connection failed. Check your internet.");
+            } finally {
+                btn.innerText = "GENERATE MASTERPIECE";
+            }
         }
-    }
-
-    function processFace(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('navAvatar').src = e.target.result;
-                document.getElementById('showroomAvatar').src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function toggleReader() {
-        document.getElementById('readerDrawer').classList.toggle('hidden');
-    }
-
-    function closeShow() {
-        document.getElementById('showroomOverlay').style.display = 'none';
-        document.getElementById('readerDrawer').classList.add('hidden');
-    }
-</script>
+    </script>
+</body>
+</html>
